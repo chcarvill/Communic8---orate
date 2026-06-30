@@ -1,6 +1,6 @@
 const CACHE_NAME = 'orate-cache-v1';
 const ASSETS = [
-  './communic8-orate.html',
+  './index.html',
   './manifest.json',
   './icon-192-megaphone.png',
   './icon-512-megaphone.png'
