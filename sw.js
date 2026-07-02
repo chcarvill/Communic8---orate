@@ -1,6 +1,6 @@
-const CACHE_NAME = 'orate-cache-v1';
+const CACHE_NAME = 'orate-cache-v2';
 const ASSETS = [
-  './index.html',
+  './communic8-orate.html',
   './manifest.json',
   './icon-192-megaphone.png',
   './icon-512-megaphone.png'
@@ -23,6 +23,26 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const isHTML = event.request.mode === 'navigate' ||
+    (event.request.headers.get('accept') || '').includes('text/html');
+
+  if (isHTML) {
+    // Network-first for HTML: always try to get the latest page,
+    // fall back to cache only if offline. Prevents stale-app-forever
+    // if a future release ever ships a bad ASSETS entry again.
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Cache-first for everything else (icons, manifest, etc.)
   event.respondWith(
     caches.match(event.request).then((cached) => {
       return cached || fetch(event.request).then((response) => {
