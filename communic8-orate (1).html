@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Orate — Communic8</title>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#f7f3ea"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icon-192-megaphone.png"/>
+<meta name="apple-mobile-web-app-title" content="Orate"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f3ea;--bg2:#fffdf8;--bg3:#efe9da;
+  --border:#ddd4bf;--border2:#c9bda0;
+  --text:#332e26;--text2:#6b6452;--text3:#9b937c;
+  --sage:#7c9473;--sage-bg:#e7ede2;--sage-border:#c3d2b8;
+  --clay:#c1714d;--clay-bg:#f5e3d8;--clay-border:#e3bb9d;
+  --warn:#c99a3a;--warn-bg:#f6ecd5;
+  --radius:10px;--radius-lg:14px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+.container{max-width:780px;margin:0 auto;padding:2rem 1.25rem;padding-top:calc(2rem + env(safe-area-inset-top));padding-bottom:calc(3rem + env(safe-area-inset-bottom))}
+header{margin-bottom:1.75rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.logo{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);margin-bottom:0.4rem}
+h1{font-family:'Source Serif 4',serif;font-size:28px;font-weight:700;color:var(--text);margin-bottom:0.2rem}
+.subtitle{font-size:13px;color:var(--text2)}
+
+.principle-strip{display:flex;align-items:baseline;gap:8px;margin-top:0.9rem;padding-top:0.9rem;border-top:1px dashed var(--border)}
+.principle-label{font-size:10.5px;font-weight:600;color:var(--clay);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.principle-text{font-family:'Source Serif 4',serif;font-size:14px;font-weight:600;color:var(--text);font-style:italic}
+
+.section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.1rem}
+.section-title{font-family:'Source Serif 4',serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:0.9rem;padding-bottom:0.6rem;border-bottom:1px solid var(--border)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:500;color:var(--text2)}
+.field input{font-size:14px;padding:9px 10px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);color:var(--text);width:100%;outline:none;transition:border-color .15s}
+.field input:focus{border-color:var(--sage)}
+
+.btn-row{display:flex;gap:10px;margin-top:1rem}
+.btn{flex:1;padding:11px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:14px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.btn:hover{color:var(--text);border-color:var(--text3)}
+.btn-save{border-color:var(--sage-border);background:var(--sage-bg);color:var(--sage)}
+.btn-save:hover{background:#dbe6d2;border-color:var(--sage)}
+
+/* initiate block */
+.initiate-btn{width:100%;padding:20px;border-radius:var(--radius-lg);border:2px solid var(--clay);background:var(--clay);color:#fff;font-size:18px;font-weight:700;font-family:'Source Serif 4',serif;cursor:pointer;transition:all .12s;letter-spacing:.01em}
+.initiate-btn:hover{background:#a85f3f;border-color:#a85f3f}
+.initiate-btn:active{transform:scale(0.98)}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0}
+.chip{padding:7px 13px;border-radius:999px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:12.5px;font-weight:500;cursor:pointer;transition:all .12s;user-select:none}
+.chip:hover{border-color:var(--text3);color:var(--text)}
+.chip.active{background:var(--clay-bg);border-color:var(--clay);color:var(--clay)}
+.initiate-note{margin-top:0.75rem}
+.initiate-sub{font-size:11.5px;color:var(--text3);margin-top:0.6rem;text-align:center}
+
+/* stat cards */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:0.8rem 0.6rem;text-align:center}
+.stat-card.headline{background:var(--clay-bg);border-color:var(--clay-border)}
+.stat-val{font-family:'Source Serif 4',serif;font-size:20px;font-weight:700;color:var(--text)}
+.stat-label{font-size:10.5px;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.stat-card.streak .stat-val{color:var(--clay)}
+.stat-card.headline .stat-val{color:var(--clay)}
+
+/* stance breakdown */
+.stance-breakdown{display:flex;flex-wrap:wrap;gap:8px;margin-top:0.9rem}
+.stance-pill{font-size:12px;padding:5px 11px;border-radius:999px;background:var(--sage-bg);border:1px solid var(--sage-border);color:var(--sage);font-weight:500}
+.stance-pill .n{font-weight:700;margin-left:3px}
+
+/* log */
+.log-wrap{display:flex;flex-direction:column;gap:8px;margin-top:0.25rem}
+.log-day-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin:0.5rem 0 0.15rem}
+.log-entry{display:flex;align-items:center;gap:10px;font-size:13px;padding:9px 11px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg3);color:var(--text2)}
+.log-entry .le-main{flex:1;color:var(--text)}
+.log-entry .le-meta{color:var(--text3);font-size:12px}
+.log-entry .le-tag{display:inline-block;font-size:11px;font-weight:600;color:var(--clay);background:var(--clay-bg);border-radius:6px;padding:1px 7px;margin-right:6px}
+.log-entry .le-actions{display:flex;gap:6px;align-items:center}
+.log-entry .le-link{cursor:pointer;color:var(--sage);font-size:12px;padding:2px 6px;border-radius:6px}
+.log-entry .le-link:hover{background:var(--sage-bg)}
+.log-entry .le-del{cursor:pointer;color:var(--clay);font-size:12px;padding:2px 6px;border-radius:6px}
+.log-entry .le-del:hover{background:var(--clay-bg)}
+.empty-state{font-size:13px;color:var(--text3);text-align:center;padding:1.5rem 0}
+
+.note{font-size:12px;color:var(--text3);line-height:1.6;padding:0.75rem 1rem;background:var(--bg3);border-radius:var(--radius);border:1px solid var(--border);margin-top:0.9rem}
+.note strong{color:var(--text2)}
+.linked-flag{font-size:11px;color:var(--sage);font-weight:600}
+
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}.btn-row{flex-direction:column}}
+@media(min-width:601px){#todayStats.stat-grid{grid-template-columns:repeat(6,1fr)}#allTimeStats.stat-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="logo">Communic8</div>
+  <h1>Orate</h1>
+  <div class="subtitle">Speak first. Every initiation counts — whether or not it goes anywhere.</div>
+  <div class="principle-strip">
+    <span class="principle-label">Today</span>
+    <span class="principle-text" id="principleText"></span>
+  </div>
+</header>
+
+<!-- INITIATE -->
+<div class="section">
+  <div class="section-title">Initiate</div>
+  <div class="chip-row" id="stanceChips"></div>
+  <button class="initiate-btn" id="btnInitiate">I initiated</button>
+  <div class="initiate-sub">One tap. No opening required — you made this one.</div>
+  <div class="field initiate-note">
+    <label>Context (optional)</label>
+    <input type="text" id="inpInitNote" placeholder="e.g. queue, cold call, gym"/>
+  </div>
+</div>
+
+<!-- INITIATION LOG -->
+<div class="section">
+  <div class="section-title">Initiation log</div>
+  <div class="log-wrap" id="initLogWrap"></div>
+  <div class="stance-breakdown" id="stanceBreakdown"></div>
+</div>
+
+<!-- LOG NEW SESSION -->
+<div class="section">
+  <div class="section-title" id="sessionTitle">Log a session</div>
+  <div class="grid3">
+    <div class="field">
+      <label>Date</label>
+      <input type="date" id="inpDate"/>
+    </div>
+    <div class="field">
+      <label>Minutes orating</label>
+      <input type="number" id="inpDuration" min="0" placeholder="e.g. 15"/>
+    </div>
+    <div class="field">
+      <label>Audience size</label>
+      <input type="number" id="inpAudience" min="0" placeholder="e.g. 8"/>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:12px">
+    <div class="field">
+      <label>Conversions (sales)</label>
+      <input type="number" id="inpConversions" min="0" placeholder="e.g. 3"/>
+    </div>
+    <div class="field">
+      <label>Note (optional)</label>
+      <input type="text" id="inpNote" placeholder="e.g. cold call block, team meeting"/>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-save" id="btnSave">+ Save session</button>
+  </div>
+  <div class="note">
+    <strong>Conversion rate</strong> is calculated automatically as conversions ÷ audience size, per session and as a daily/all-time average. <strong>Audience size</strong> is how many people you addressed simultaneously on that occasion (e.g. a 1:1 call = 1, a room of 12 = 12).
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="section">
+  <div class="section-title">Day length (for proportion calc)</div>
+  <div class="field">
+    <label>Hours counted as your "day" (e.g. working hours)</label>
+    <input type="number" id="inpDayHours" min="1" max="24" step="0.5" placeholder="e.g. 8"/>
+  </div>
+  <div class="note">
+    <strong>Proportion of day orating</strong> = minutes orated ÷ (day length in hours × 60). Set this to your typical working day length — defaults to 8 hours if left blank.
+  </div>
+</div>
+
+<!-- TODAY -->
+<div class="section">
+  <div class="section-title">Today</div>
+  <div class="stat-grid" id="todayStats"></div>
+</div>
+
+<!-- ALL TIME -->
+<div class="section">
+  <div class="section-title">All-time</div>
+  <div class="stat-grid" id="allTimeStats"></div>
+</div>
+
+<!-- LOG -->
+<div class="section">
+  <div class="section-title">Session log</div>
+  <div class="log-wrap" id="logWrap"></div>
+</div>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'communic8_orate_sessions';
+const INIT_KEY = 'communic8_orate_initiations';
+const DAY_HOURS_KEY = 'communic8_orate_day_hours';
+
+const STANCES = ['Curious','Direct','Playful','Blunt','Warm','Bold'];
+const PRINCIPLES = [
+  "Speak first, always.",
+  "Silence is not a signal to stop.",
+  "One sentence is enough to start.",
+  "The stranger doesn't need your best line — any line moves you forward.",
+  "Rejection ends the exchange, not the day.",
+  "Approach precedes readiness.",
+  "Talk to the room, not just the target."
+];
+
+let selectedStance = null;
+let pendingLinkInitiationId = null;
+
+function loadSessions(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch(e){ return []; }
+}
+function saveSessions(sessions){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+}
+function loadInitiations(){
+  try{ return JSON.parse(localStorage.getItem(INIT_KEY)) || []; }
+  catch(e){ return []; }
+}
+function saveInitiations(list){
+  localStorage.setItem(INIT_KEY, JSON.stringify(list));
+}
+
+function todayStr(){
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+document.getElementById('inpDate').value = todayStr();
+
+function loadDayHours(){
+  const v = parseFloat(localStorage.getItem(DAY_HOURS_KEY));
+  return (v && v>0) ? v : 8;
+}
+function saveDayHours(v){
+  localStorage.setItem(DAY_HOURS_KEY, v);
+}
+const dayHoursInput = document.getElementById('inpDayHours');
+dayHoursInput.value = loadDayHours();
+dayHoursInput.addEventListener('change', ()=>{
+  const v = parseFloat(dayHoursInput.value);
+  saveDayHours(v && v>0 ? v : 8);
+  render();
+});
+
+function fmtPct(num, den){
+  if(!den || den<=0) return '—';
+  return Math.round((num/den)*100)+'%';
+}
+
+function getTodayPrinciple(){
+  const now = new Date();
+  const start = new Date(now.getFullYear(),0,0);
+  const diff = now - start;
+  const dayOfYear = Math.floor(diff/86400000);
+  return PRINCIPLES[dayOfYear % PRINCIPLES.length];
+}
+document.getElementById('principleText').textContent = getTodayPrinciple();
+
+// --- stance chips ---
+function renderStanceChips(){
+  const wrap = document.getElementById('stanceChips');
+  wrap.innerHTML = STANCES.map(s=>
+    `<div class="chip${selectedStance===s?' active':''}" data-stance="${s}">${s}</div>`
+  ).join('');
+  wrap.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      const s = chip.getAttribute('data-stance');
+      selectedStance = (selectedStance===s) ? null : s;
+      renderStanceChips();
+    });
+  });
+}
+renderStanceChips();
+
+// --- initiate button ---
+document.getElementById('btnInitiate').addEventListener('click', ()=>{
+  const note = document.getElementById('inpInitNote').value.trim();
+  const list = loadInitiations();
+  list.push({
+    id: Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+    date: todayStr(),
+    stance: selectedStance,
+    note,
+    linkedSessionId: null,
+    createdAt: Date.now()
+  });
+  saveInitiations(list);
+  document.getElementById('inpInitNote').value = '';
+  selectedStance = null;
+  renderStanceChips();
+  render();
+});
+
+function computeStreak(dateList){
+  const days = new Set(dateList);
+  let streak=0;
+  let cursor = new Date();
+  while(true){
+    const ds = cursor.getFullYear()+'-'+String(cursor.getMonth()+1).padStart(2,'0')+'-'+String(cursor.getDate()).padStart(2,'0');
+    if(days.has(ds)){
+      streak++;
+      cursor.setDate(cursor.getDate()-1);
+    } else break;
+  }
+  return streak;
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function linkInitiationToSession(id){
+  pendingLinkInitiationId = id;
+  document.getElementById('inpDate').value = todayStr();
+  document.getElementById('sessionTitle').textContent = 'Log a session — linking to initiation';
+  document.getElementById('sessionTitle').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function deleteInitiation(id){
+  const list = loadInitiations().filter(i=>i.id!==id);
+  saveInitiations(list);
+  render();
+}
+
+function renderInitiationLog(){
+  const list = loadInitiations().sort((a,b)=> b.date.localeCompare(a.date) || b.createdAt-a.createdAt);
+  const today = todayStr();
+  const wrap = document.getElementById('initLogWrap');
+  if(list.length===0){
+    wrap.innerHTML = '<div class="empty-state">No initiations logged yet — hit the button above.</div>';
+  } else {
+    let html='';
+    let lastDate=null;
+    list.forEach(i=>{
+      if(i.date!==lastDate){
+        lastDate=i.date;
+        html += `<div class="log-day-label">${i.date===today?'Today · '+i.date:i.date}</div>`;
+      }
+      const stanceTag = i.stance ? `<span class="le-tag">${i.stance}</span>` : '';
+      const noteTxt = i.note ? escapeHtml(i.note) : '';
+      const linkOrFlag = i.linkedSessionId
+        ? '<span class="linked-flag">→ session logged</span>'
+        : `<span class="le-link" onclick="linkInitiationToSession('${i.id}')">+ session</span>`;
+      html += `<div class="log-entry">
+        <div class="le-main">${stanceTag}${noteTxt || 'Initiation'}</div>
+        <div class="le-actions">${linkOrFlag}<div class="le-del" onclick="deleteInitiation('${i.id}')">delete</div></div>
+      </div>`;
+    });
+    wrap.innerHTML = html;
+  }
+
+  // stance breakdown
+  const counts = {};
+  list.forEach(i=>{ if(i.stance){ counts[i.stance] = (counts[i.stance]||0)+1; } });
+  const bd = document.getElementById('stanceBreakdown');
+  const keys = Object.keys(counts);
+  if(keys.length===0){
+    bd.innerHTML = '';
+  } else {
+    bd.innerHTML = keys.sort((a,b)=>counts[b]-counts[a])
+      .map(k=>`<div class="stance-pill">${k}<span class="n">${counts[k]}</span></div>`).join('');
+  }
+}
+
+function render(){
+  const sessions = loadSessions().sort((a,b)=> b.date.localeCompare(a.date) || b.createdAt-a.createdAt);
+  const initiations = loadInitiations();
+  const today = todayStr();
+
+  // Today stats
+  const todaySessions = sessions.filter(s=>s.date===today);
+  const todayInitiations = initiations.filter(i=>i.date===today);
+  const tMinutes = todaySessions.reduce((a,s)=>a+s.duration,0);
+  const tAudience = todaySessions.reduce((a,s)=>a+s.audience,0);
+  const tConversions = todaySessions.reduce((a,s)=>a+s.conversions,0);
+  const dayHours = loadDayHours();
+  const dayMinutes = dayHours*60;
+  const proportion = dayMinutes>0 ? Math.min(100, Math.round((tMinutes/dayMinutes)*100)) : 0;
+  document.getElementById('todayStats').innerHTML = `
+    <div class="stat-card headline"><div class="stat-val">${todayInitiations.length}</div><div class="stat-label">Initiations</div></div>
+    <div class="stat-card"><div class="stat-val">${todaySessions.length}</div><div class="stat-label">Sessions</div></div>
+    <div class="stat-card"><div class="stat-val">${tMinutes}</div><div class="stat-label">Minutes orated</div></div>
+    <div class="stat-card"><div class="stat-val">${tAudience}</div><div class="stat-label">Audience reached</div></div>
+    <div class="stat-card"><div class="stat-val">${fmtPct(tConversions,tAudience)}</div><div class="stat-label">Conversion rate</div></div>
+    <div class="stat-card"><div class="stat-val">${proportion}%</div><div class="stat-label">Of day spent orating</div></div>
+  `;
+
+  // All-time stats
+  const aMinutes = sessions.reduce((a,s)=>a+s.duration,0);
+  const aAudience = sessions.reduce((a,s)=>a+s.audience,0);
+  const aConversions = sessions.reduce((a,s)=>a+s.conversions,0);
+  const streak = computeStreak(initiations.map(i=>i.date));
+  document.getElementById('allTimeStats').innerHTML = `
+    <div class="stat-card headline"><div class="stat-val">${initiations.length}</div><div class="stat-label">Total initiations</div></div>
+    <div class="stat-card streak"><div class="stat-val">${streak}</div><div class="stat-label">Day streak</div></div>
+    <div class="stat-card"><div class="stat-val">${sessions.length}</div><div class="stat-label">Total sessions</div></div>
+    <div class="stat-card"><div class="stat-val">${aMinutes}</div><div class="stat-label">Total minutes</div></div>
+    <div class="stat-card"><div class="stat-val">${aAudience}</div><div class="stat-label">Total audience</div></div>
+    <div class="stat-card"><div class="stat-val">${fmtPct(aConversions,aAudience)}</div><div class="stat-label">Conversion rate</div></div>
+  `;
+
+  renderInitiationLog();
+
+  // Session log
+  const logWrap = document.getElementById('logWrap');
+  if(sessions.length===0){
+    logWrap.innerHTML = '<div class="empty-state">No sessions logged yet — add one above, or link one from an initiation.</div>';
+    return;
+  }
+  let html='';
+  let lastDate=null;
+  sessions.forEach(s=>{
+    if(s.date!==lastDate){
+      lastDate=s.date;
+      html += `<div class="log-day-label">${s.date===today?'Today · '+s.date:s.date}</div>`;
+    }
+    const rate = fmtPct(s.conversions, s.audience);
+    html += `<div class="log-entry">
+      <div class="le-main">${s.duration}min · audience ${s.audience} · ${s.conversions} conversions (${rate})${s.note?' · '+escapeHtml(s.note):''}</div>
+      <div class="le-del" onclick="deleteSession('${s.id}')">delete</div>
+    </div>`;
+  });
+  logWrap.innerHTML = html;
+}
+
+function deleteSession(id){
+  const sessions = loadSessions().filter(s=>s.id!==id);
+  saveSessions(sessions);
+  render();
+}
+
+document.getElementById('btnSave').addEventListener('click', ()=>{
+  const date = document.getElementById('inpDate').value || todayStr();
+  const duration = parseInt(document.getElementById('inpDuration').value)||0;
+  const audience = parseInt(document.getElementById('inpAudience').value)||0;
+  const conversions = parseInt(document.getElementById('inpConversions').value)||0;
+  const note = document.getElementById('inpNote').value.trim();
+
+  if(duration<=0 && audience<=0){
+    alert('Enter at least a duration or audience size.');
+    return;
+  }
+
+  const sessionId = Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  const sessions = loadSessions();
+  sessions.push({
+    id: sessionId,
+    date, duration, audience, conversions, note,
+    initiationId: pendingLinkInitiationId,
+    createdAt: Date.now()
+  });
+  saveSessions(sessions);
+
+  if(pendingLinkInitiationId){
+    const list = loadInitiations();
+    const idx = list.findIndex(i=>i.id===pendingLinkInitiationId);
+    if(idx>-1){ list[idx].linkedSessionId = sessionId; saveInitiations(list); }
+    pendingLinkInitiationId = null;
+    document.getElementById('sessionTitle').textContent = 'Log a session';
+  }
+
+  document.getElementById('inpDuration').value='';
+  document.getElementById('inpAudience').value='';
+  document.getElementById('inpConversions').value='';
+  document.getElementById('inpNote').value='';
+
+  render();
+});
+
+render();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
